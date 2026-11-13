@@ -11,6 +11,8 @@ package:
 source:
   url: https://github.com/Simple-Robotics/${{ name }}/archive/refs/tags/v${{ version }}.tar.gz
   sha256: 8bd4818895e66784c7f86e73997df4f9b318a9b06c233798f9ec169776656e07
+  patches:
+    - 0001-Skip-immintrin-on-riscv.patch
 
 build:
   number: 0
