@@ -1,0 +1,66 @@
+schema_version: 1
+
+context:
+  name: proxsuite
+  version: "0.8.3"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/Simple-Robotics/${{ name }}/archive/refs/tags/v${{ version }}.tar.gz
+  sha256: 8bd4818895e66784c7f86e73997df4f9b318a9b06c233798f9ec169776656e07
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - if: build_platform != target_platform
+      then: python
+    - if: build_platform != target_platform
+      then: cross-python_${{ target_platform }}
+    - ${{ compiler('cxx') }}
+    - ${{ stdlib("c") }}
+    - cmake
+    - ninja
+    - if: not riscv64
+      then: doxygen
+    - if: linux
+      then: libgomp
+    - if: osx or win
+      then: llvm-openmp
+    - jrl-cmakemodules
+  host:
+    - eigen
+    - python
+    - simde
+    - cereal
+  run:
+    - eigen
+    - python
+    - scipy
+    - numpy
+    - simde
+    - cereal
+
+tests:
+  - python:
+      imports:
+        - proxsuite
+      pip_check: true
+
+about:
+  summary: Quadratic Programming Solver for Robotics and beyond.
+  license: BSD-2-Clause
+  license_file: LICENSE
+  homepage: https://github.com/simple-robotics/proxsuite
+  repository: https://github.com/simple-robotics/proxsuite
+
+extra:
+  recipe-maintainers:
+    - jorisv
+    - fabinsch
+    - jcarpent
+    - Bambade
